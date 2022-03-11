@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using YourBlog.EfStuff;
+using YourBlog.EfStuff.Repositories;
 
 namespace YourBlog
 {
@@ -28,6 +29,11 @@ namespace YourBlog
         {
             var connectString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=MyBlog;Integrated Security=True;";
             services.AddDbContext<WebContext>(x => x.UseSqlServer(connectString));
+
+            services.AddScoped<UserRepository>();
+            services.AddScoped<CategoryRepository>();
+            services.AddScoped<ArticleRepository>();
+
 
             services.AddAuthentication(AuthCoockieName)
                .AddCookie(AuthCoockieName, config =>
