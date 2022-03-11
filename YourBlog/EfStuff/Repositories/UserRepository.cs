@@ -1,4 +1,5 @@
-﻿using WebMaze.EfStuff.Repositories;
+﻿using System.Linq;
+using WebMaze.EfStuff.Repositories;
 using YourBlog.EfStuff.DbModel;
 
 namespace YourBlog.EfStuff.Repositories
@@ -7,6 +8,10 @@ namespace YourBlog.EfStuff.Repositories
     {
         public UserRepository(WebContext webContext) : base(webContext)
         {
+        }
+        public User GetByNameAndPassword(string login, string password)
+        {
+            return GetAllQueryable().SingleOrDefault(x => x.Name == login && x.Password == password);
         }
     }
 }
