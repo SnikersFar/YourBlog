@@ -11,6 +11,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using YourBlog.EfStuff;
 using YourBlog.EfStuff.Repositories;
+using YourBlog.Services;
 
 namespace YourBlog
 {
@@ -33,13 +34,13 @@ namespace YourBlog
             services.AddScoped<UserRepository>();
             services.AddScoped<CategoryRepository>();
             services.AddScoped<ArticleRepository>();
-
+            services.AddScoped<UserService>();
 
             services.AddAuthentication(AuthCoockieName)
                .AddCookie(AuthCoockieName, config =>
                {
-                   config.LoginPath = "/User/Login";
-                   config.AccessDeniedPath = "/User/AccessDenied";
+                   config.LoginPath = "/Admin/Login";
+                   config.AccessDeniedPath = "/Home/Index";
                    config.Cookie.Name = "AuthSweet";
                });
 
