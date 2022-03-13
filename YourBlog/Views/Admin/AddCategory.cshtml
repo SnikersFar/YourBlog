@@ -1,0 +1,53 @@
+﻿@using YourBlog.Models
+@model List<CategoryViewModel>
+<ul class="nav nav-pills">
+    <li class="nav-item">
+        <a class="nav-link" href="/Admin/Profile">My Articles</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/Admin/ChangeArticle">Create Article</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link active" href="#">Categories</a>
+    </li>
+</ul>
+<h2>All Categories</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Count</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var category in Model)
+        {
+            <tr>
+                <td>@category.Name</td>
+                <td>@category.CountArticles</td>
+                @if (category.CountArticles == 0)
+                {
+                    <td><a href="/Admin/DeleteCategory?Id=@category.Id">Delete</a></td>
+                } else
+                {
+                    <td></td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>
+
+<fieldset class="form-group border p-3">
+    <legend class="w-auto px-2">Create Category</legend>
+    <form action="/Admin/AddCategory" method="post">
+
+        <div class="form-group row">
+            <label for="staticEmail" class="col-sm-2 col-form-label">Category Name</label>
+            <div class="col-sm-10">
+                <input name="Title" type="text" class="form-control-plaintext" placeholder="Example: Electronic">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </form>
+</fieldset>

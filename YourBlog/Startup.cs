@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -10,7 +11,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using YourBlog.EfStuff;
+using YourBlog.EfStuff.DbModel;
 using YourBlog.EfStuff.Repositories;
+using YourBlog.Models;
 using YourBlog.Services;
 
 namespace YourBlog
@@ -35,6 +38,21 @@ namespace YourBlog
             services.AddScoped<CategoryRepository>();
             services.AddScoped<ArticleRepository>();
             services.AddScoped<UserService>();
+
+            var provider = new MapperConfigurationExpression();
+
+            provider.CreateMap<Article, ArticleViewModel>()
+                .ForMember(aView => aView.CategoryId, db => db.MapFrom(art => art.IsCategory.Id))
+                .ForMember(aView => aView.CreatorId, db => db.MapFrom(art => art.Creator.Id));
+
+            provider.CreateMap<ArticleViewModel, Article>();
+
+            provider.CreateMap<Category, CategoryViewModel>()
+                .ForMember(cView => cView.CountArticles, db => db.MapFrom(cat => cat.Articles.Count));
+
+            var mapperConfiguration = new MapperConfiguration(provider);
+            var mapper = new Mapper(mapperConfiguration);
+            services.AddScoped<IMapper>(x => mapper);
 
             services.AddAuthentication(AuthCoockieName)
                .AddCookie(AuthCoockieName, config =>
@@ -73,7 +91,6 @@ namespace YourBlog
 
             app.UseEndpoints(endpoints =>
             {
-                // определение маршрутов
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
