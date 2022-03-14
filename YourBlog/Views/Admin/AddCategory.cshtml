@@ -1,7 +1,7 @@
 ﻿@using YourBlog.Models
 @model List<CategoryViewModel>
 @section Sprites{
-     <link rel="stylesheet" src="~/js/categoryChange.js" />
+<script src="~/js/category.js"></script>
 }
 <ul class="nav nav-pills">
     <li class="nav-item">
@@ -28,13 +28,14 @@
         @foreach (var category in Model)
         {
             <tr>
-                <td>@category.Name</td>
+                <td id="name-@category.Id">@category.Name</td>
                 <td>@category.CountArticles</td>
                 <td><a class="edit-button" id="@category.Id" href="#">Edit</a></td>
                 @if (category.CountArticles == 0)
                 {
                     <td><a href="/Admin/DeleteCategory?Id=@category.Id">Delete</a></td>
-                } else
+                }
+                else
                 {
                     <td></td>
                 }
@@ -46,13 +47,14 @@
 <fieldset class="form-group border p-3">
     <legend class="w-auto px-2">Create Category</legend>
     <form action="/Admin/AddCategory" method="post">
-        <input type="hidden" name="Id" />
+        <input type="hidden" name="Id" class="IdCategory" value="0"/>
         <div class="form-group row">
             <label for="staticEmail" class="col-sm-2 col-form-label">Category Name</label>
             <div class="col-sm-10">
-                <input name="Name" type="text" class="form-control-plaintext" placeholder="Example: Electronic">
+                <input name="Name" type="text" class="form-control-plaintext name-input" placeholder="Example: Electronic">
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
+            <input type="hidden" class="btn btn-light cancel-button" value="Cancel">
         </div>
     </form>
 </fieldset>

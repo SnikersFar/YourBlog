@@ -61,7 +61,7 @@ namespace YourBlog
                    config.AccessDeniedPath = "/Home/Index";
                    config.Cookie.Name = "AuthSweet";
                });
-
+            services.AddSignalR();
             services.AddHttpContextAccessor();
 
             services.AddControllersWithViews();
