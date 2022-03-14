@@ -78,7 +78,7 @@ namespace YourBlog.Controllers
         [HttpGet]
         public IActionResult Profile()
         {
-            var ViewArticles = _mapper.Map<List<ArticleViewModel>>(_userService.GetCurrentUser().Articles);
+            var ViewArticles = _mapper.Map<List<ArticleViewModel>>(_userService.GetCurrentUser().Articles.Where(a => a.IsActive).ToList());
             return View(ViewArticles);
 
         }
@@ -118,12 +118,26 @@ namespace YourBlog.Controllers
         [HttpPost]
         public IActionResult ChangeArticle(ArticleViewModel article)
         {
-            var MyArticle = _mapper.Map<Article>(article);
-            MyArticle.Creator = _userService.GetCurrentUser();
-            MyArticle.IsActive = true;
-            MyArticle.IsCategory = _categoryRepository.Get(article.CategoryId);
-            _articleRepository.Save(MyArticle);
+            var MeUser = _userService.GetCurrentUser();
+            if (article.CreatorId == 0 || _articleRepository.Get(article.Id).Creator.Id == MeUser.Id)
+            {
+                var MyArticle = _mapper.Map<Article>(article);
+                MyArticle.Creator = MeUser;
+                MyArticle.IsActive = true;
+                MyArticle.IsCategory = _categoryRepository.Get(article.CategoryId);
+                _articleRepository.Save(MyArticle);
+            }
 
+            return RedirectToAction("Profile", "Admin");
+        }
+        
+        public IActionResult DeleteArticle(long articleId)
+        {
+            var MeUser = _userService.GetCurrentUser();
+            if (MeUser.Articles.Any(a => a.Id == articleId))
+            {
+                _articleRepository.Remove(articleId);
+            }
             return RedirectToAction("Profile", "Admin");
         }
 
@@ -154,7 +168,7 @@ namespace YourBlog.Controllers
         public IActionResult DeleteCategory(long Id)
         {
             var category = _categoryRepository.Get(Id);
-            if (category != null && category.Articles.Count == 0)
+            if (category != null && category.Articles.Where(a => a.IsActive).ToList().Count == 0)
             {
                 category.IsActive = false;
                 _categoryRepository.Save(category);

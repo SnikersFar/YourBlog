@@ -1,6 +1,8 @@
 ﻿@using YourBlog.Models
 @model List<ArticleViewModel>
-
+@section Sprites{
+     <link rel="stylesheet" href="~/css/Profile.css" />
+}
 <ul class="nav nav-pills">
     <li class="nav-item">
         <a class="nav-link active" href="#">My Articles</a> <!-- активная ссылка -->
@@ -17,10 +19,14 @@
 {
     <div class="card" style="width: 100%;">
         <p></p>
-        <img class="card-img-top" src="@article.Image" alt="Card image cap">
         <div class="card-body">
-            <h5 class="card-title">@article.Title</h5>
-            <p class="card-text">@article.Description</p>
+            <div class="info-article">
+                <h5 class="card-title">@article.Title</h5>
+                <p class="card-text">@article.Description</p>
+                <a href="/Admin/ChangeArticle?idArticle=@article.Id">Edit</a>
+                <a href="/Admin/DeleteArticle?articleId=@article.Id">Delete</a>
+            </div>
+            <img class="img-thumbnail" style="width: 20%;" src="@article.Image" alt="Card image cap">
         </div>
     </div>
 }

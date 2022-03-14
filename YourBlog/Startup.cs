@@ -48,7 +48,7 @@ namespace YourBlog
             provider.CreateMap<ArticleViewModel, Article>();
 
             provider.CreateMap<Category, CategoryViewModel>()
-                .ForMember(cView => cView.CountArticles, db => db.MapFrom(cat => cat.Articles.Count));
+                .ForMember(cView => cView.CountArticles, db => db.MapFrom(cat => cat.Articles.Where(a => a.IsActive).ToList().Count));
 
             var mapperConfiguration = new MapperConfiguration(provider);
             var mapper = new Mapper(mapperConfiguration);

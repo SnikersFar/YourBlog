@@ -1,0 +1,9 @@
+﻿.card-body {
+    display: flex;
+    justify-content: space-around;
+}
+.info-article {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
