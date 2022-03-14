@@ -118,6 +118,15 @@ namespace YourBlog.Controllers
         [HttpPost]
         public IActionResult ChangeArticle(ArticleViewModel article)
         {
+            if (!ModelState.IsValid)
+            {
+                var ChangeArticle = new ChangeArticleViewModel()
+                {
+                    Article = article,
+                    Categories = _mapper.Map<List<CategoryViewModel>>(_categoryRepository.GetAll()),
+                };
+                return View(ChangeArticle);
+            }
             var MeUser = _userService.GetCurrentUser();
             if (article.CreatorId == 0 || _articleRepository.Get(article.Id).Creator.Id == MeUser.Id)
             {
@@ -150,6 +159,10 @@ namespace YourBlog.Controllers
         [HttpPost]
         public IActionResult AddCategory(CategoryViewModel category)
         {
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction("AddCategory", "Admin");
+            }
             var MyCategory = _categoryRepository.Get(category.Id);
             if (MyCategory != null && MyCategory.IsActive == true)
             {
