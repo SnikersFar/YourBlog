@@ -1,4 +1,6 @@
-﻿namespace YourBlog.EfStuff.DbModel
+﻿using System;
+
+namespace YourBlog.EfStuff.DbModel
 {
     public class Article : BaseModel
     {
@@ -9,6 +11,7 @@
         public virtual Category IsCategory { get; set; }
         public virtual User Creator { get; set; }
         public string Tags { get; set; }
+        public DateTime CreatedDate { get; set; }
 
     }
 }

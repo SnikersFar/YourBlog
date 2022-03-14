@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -133,6 +134,10 @@ namespace YourBlog.Controllers
                 var MyArticle = _mapper.Map<Article>(article);
                 MyArticle.Creator = MeUser;
                 MyArticle.IsActive = true;
+                if(article.CreatorId <= 0)
+                {
+                    MyArticle.CreatedDate = DateTime.Today;
+                }
                 MyArticle.IsCategory = _categoryRepository.Get(article.CategoryId);
                 _articleRepository.Save(MyArticle);
             }
