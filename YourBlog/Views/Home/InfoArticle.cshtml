@@ -5,7 +5,7 @@
 }
 
 <div class="card" style="width: 100%;">
-    <img class="card-img-top" src="@Model.Image">
+    <img class="card-img-top" src="@Model.Image" onError="this.style.display='none'">
     <div class="card-body">
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
@@ -21,3 +21,5 @@
         <li class="list-group-item">Tags: @Model.Tags</li>
     </ul>
 </div>
+
+
