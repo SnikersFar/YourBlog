@@ -1,23 +1,48 @@
 ﻿@using YourBlog.Models
 @model List<ArticleViewModel>
 @section Sprites{
-    <link href="~/css/Articles.css">
+<link rel="stylesheet" href="~/css/Articles.css">
 }
 <h2>Articles</h2>
-<div class="row">
-    @foreach (var article in Model)
-    {
-        <div class="card" style="width: 18rem;">
-            @if (article.Image != "")
-            {
-                <img class="card-img-top" src="@article.Image" onError="this.style.display='none'">
-            }
-            <div class="card-body" style="display: flex; flex-direction: column; justify-content: space-between;">
-                <h5 class="card-title">@article.Title</h5>
-                <p>@article.CategoryName</p>
-                <p class="card-text">@article.Description</p>
-                <a href="/Home/InfoArticle?IdArticle=@article.Id" class="btn btn-primary">Go somewhere</a>
+<div class="rows">
+    <div class="row articles">
+        @foreach (var article in Model)
+        {
+            <div class="card" style="width: 18rem;">
+                @if (article.Image != "")
+                {
+                    <img class="card-img-top" src="@article.Image" onError="this.style.display='none'">
+                }
+                <div class="card-body" style="display: flex; flex-direction: column; justify-content: space-between;">
+                    <h5 class="card-title">@article.Title</h5>
+                    <p>@article.CategoryName</p>
+                    <p class="card-text">@article.Description</p>
+                    <a href="/Home/InfoArticle?IdArticle=@article.Id" class="btn btn-primary">Go somewhere</a>
+                </div>
             </div>
+        }
+    </div>
+    <form>
+        <div class="row filter">
+
+            <h3>Filter</h3>
+            <h4>By Category</h4>
+            <select class="form-control" id="exampleFormControlSelect1">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+            </select>
+            <h4>By Date</h4>
+            start date
+            <input type="date" max="2022-12-31" />
+            end date
+            <input type="date" max="2022-12-31" />
+            <h4>By Tags</h4>
+            <input type="text" pattern="#[a-zA-Z]{1,}" placeholder="#cool #nice #best" />
+            <input type="submit" value="Search" />
+
         </div>
-    }
+    </form>
 </div>

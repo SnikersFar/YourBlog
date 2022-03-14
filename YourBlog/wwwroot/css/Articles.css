@@ -25,3 +25,12 @@ img:after {
 .card-body {
 
 }
+
+.rows{
+    display: flex;
+
+}
+.filter {
+    display: flex;
+    flex-direction: column;
+}
