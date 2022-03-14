@@ -1,5 +1,8 @@
 ﻿@using YourBlog.Models
 @model List<CategoryViewModel>
+@section Sprites{
+     <link rel="stylesheet" src="~/js/categoryChange.js" />
+}
 <ul class="nav nav-pills">
     <li class="nav-item">
         <a class="nav-link" href="/Admin/Profile">My Articles</a>
@@ -18,6 +21,7 @@
             <th scope="col">Name</th>
             <th scope="col">Count</th>
             <th scope="col"></th>
+            <th scope="col"></th>
         </tr>
     </thead>
     <tbody>
@@ -26,6 +30,7 @@
             <tr>
                 <td>@category.Name</td>
                 <td>@category.CountArticles</td>
+                <td><a class="edit-button" id="@category.Id" href="#">Edit</a></td>
                 @if (category.CountArticles == 0)
                 {
                     <td><a href="/Admin/DeleteCategory?Id=@category.Id">Delete</a></td>
@@ -41,11 +46,11 @@
 <fieldset class="form-group border p-3">
     <legend class="w-auto px-2">Create Category</legend>
     <form action="/Admin/AddCategory" method="post">
-
+        <input type="hidden" name="Id" />
         <div class="form-group row">
             <label for="staticEmail" class="col-sm-2 col-form-label">Category Name</label>
             <div class="col-sm-10">
-                <input name="Title" type="text" class="form-control-plaintext" placeholder="Example: Electronic">
+                <input name="Name" type="text" class="form-control-plaintext" placeholder="Example: Electronic">
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
         </div>

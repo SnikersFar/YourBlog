@@ -130,7 +130,7 @@ namespace YourBlog.Controllers
 
             return RedirectToAction("Profile", "Admin");
         }
-        
+
         public IActionResult DeleteArticle(long articleId)
         {
             var MeUser = _userService.GetCurrentUser();
@@ -143,23 +143,27 @@ namespace YourBlog.Controllers
 
         [Authorize]
         [HttpGet]
-        public IActionResult AddCategory()
-        {
-            var categories = _mapper.Map<List<CategoryViewModel>>(_categoryRepository.GetAll());
+        public IActionResult AddCategory() => View(_mapper.Map<List<CategoryViewModel>>(_categoryRepository.GetAll()));
 
-            return View(categories);
-        }
 
         [Authorize]
         [HttpPost]
-        public IActionResult AddCategory(string Title)
+        public IActionResult AddCategory(CategoryViewModel category)
         {
-            if (!_categoryRepository.GetAll().Any(c => c.Name == Title && c.IsActive == true))
+            var MyCategory = _categoryRepository.Get(category.Id);
+            if (MyCategory != null && MyCategory.IsActive == true)
             {
-                _categoryRepository.Save(new Category() { Name = Title, IsActive = true, });
-            }
-            var categories = _mapper.Map<List<CategoryViewModel>>(_categoryRepository.GetAll());
+                MyCategory.Name = category.Name;
+                _categoryRepository.Save(MyCategory);
 
+            } else if (category.Id <= 0)
+            {
+                var newCategory = new Category() { IsActive = true, Name = category.Name, };
+                _categoryRepository.Save(newCategory);
+            }
+
+
+            var categories = _mapper.Map<List<CategoryViewModel>>(_categoryRepository.GetAll());
             return View(categories);
         }
 
