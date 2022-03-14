@@ -76,25 +76,14 @@ namespace WebMaze.EfStuff.Repositories
 
         public List<Template> GetForPagination(int perPage, int page)
             => _dbSet
+            .Where(a => a.IsActive)
+            .ToList()
             .Skip((page - 1) * perPage)
             .Take(perPage)
             .ToList();
 
-        public virtual List<Template> GetSortedNews(string columnName)
-        {
-            var table = Expression.Parameter(typeof(Template), "obj");
-            var ListOfProperty = columnName.Split(".");
-            var member = Expression.Property(table, ListOfProperty[0]);
-            for (int i = 1; i < ListOfProperty.Length; i++)
-            {
-                var item = ListOfProperty[i];
-                var next = Expression.Property(member, item);
-                member = next;
 
-            }
-            var condition = Expression.Lambda<Func<Template, object>>(Expression.Convert(member, typeof(object)), table);
-            return _dbSet.OrderBy(condition).ToList();
-        }
+
     }
 
 

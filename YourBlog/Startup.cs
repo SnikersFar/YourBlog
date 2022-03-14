@@ -38,6 +38,7 @@ namespace YourBlog
             services.AddScoped<CategoryRepository>();
             services.AddScoped<ArticleRepository>();
             services.AddScoped<UserService>();
+            services.AddScoped<ArticleService>();
 
             var provider = new MapperConfigurationExpression();
 

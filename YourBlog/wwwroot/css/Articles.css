@@ -23,14 +23,19 @@ img:after {
 
 
 .card-body {
-
 }
 
-.rows{
+.rows {
     display: flex;
-
 }
+
 .filter {
     display: flex;
     flex-direction: column;
+}
+
+.link-pages {
+    position: absolute;
+    left: 50%;
+    bottom: 0;
 }

@@ -1,48 +1,94 @@
 ﻿@using YourBlog.Models
-@model List<ArticleViewModel>
+@model DataArticlesViewModel
 @section Sprites{
 <link rel="stylesheet" href="~/css/Articles.css">
 }
-<h2>Articles</h2>
-<div class="rows">
-    <div class="row articles">
-        @foreach (var article in Model)
-        {
-            <div class="card" style="width: 18rem;">
-                @if (article.Image != "")
-                {
-                    <img class="card-img-top" src="@article.Image" onError="this.style.display='none'">
-                }
-                <div class="card-body" style="display: flex; flex-direction: column; justify-content: space-between;">
-                    <h5 class="card-title">@article.Title</h5>
-                    <p>@article.CategoryName</p>
-                    <p class="card-text">@article.Description</p>
-                    <a href="/Home/InfoArticle?IdArticle=@article.Id" class="btn btn-primary">Go somewhere</a>
+<div class="block-main-articles">
+    <h2>Articles</h2>
+    <div class="rows">
+        <div class="row articles">
+            @foreach (var article in Model.Articles)
+            {
+                <div class="card" style="width: 18rem;">
+                    @if (article.Image != "")
+                    {
+                        <img class="card-img-top" src="@article.Image" onError="this.style.display='none'">
+                    }
+                    <div class="card-body" style="display: flex; flex-direction: column; justify-content: space-between;">
+                        <h5 class="card-title">@article.Title</h5>
+                        <p>@article.CategoryName</p>
+                        <p class="card-text">@article.Description</p>
+                        <a href="/Home/InfoArticle?IdArticle=@article.Id" class="btn btn-primary">Go somewhere</a>
+                    </div>
                 </div>
-            </div>
-        }
-    </div>
-    <form>
-        <div class="row filter">
-
-            <h3>Filter</h3>
-            <h4>By Category</h4>
-            <select class="form-control" id="exampleFormControlSelect1">
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-            </select>
-            <h4>By Date</h4>
-            start date
-            <input type="date" max="2022-12-31" />
-            end date
-            <input type="date" max="2022-12-31" />
-            <h4>By Tags</h4>
-            <input type="text" pattern="#[a-zA-Z]{1,}" placeholder="#cool #nice #best" />
-            <input type="submit" value="Search" />
-
+            }
         </div>
-    </form>
+        <form>
+            <div class="row filter">
+
+                <h3>Filter</h3>
+                <h4>By Category</h4>
+                <select name="CategoryIdFind" class="form-control" id="exampleFormControlSelect1">
+                    @foreach (var category in Model.Categories)
+                    {
+                        <option value="@category.Id">@category.Name</option>
+                    }
+                </select>
+                <h4>By Date</h4>
+                start date
+                <input name="FromDateFind" type="date" max="2022-12-31" value="@Model.FromDateFind" />
+                end date
+                <input name="ToDateFind" type="date" max="2022-12-31" value="@Model.ToDateFind" />
+                <h4>By Tags</h4>
+                <input name="TagFind" type="text" pattern="#[a-zA-Z]{1,}" placeholder="#cool #nice #best" value="@Model.TagFind" />
+                <input type="submit" value="Search" />
+
+            </div>
+        </form>
+    </div>
+</div>
+<div class="link-pages">
+    <nav aria-label="...">
+        <ul class="pagination">
+            @if (Model.MyPage <= 1)
+            {
+                <li class="page-item disabled">
+                    <a class="page-link" tabindex="-1">Previous</a>
+                </li>
+            }
+            else
+            {
+                <li class="page-item">
+                    <a class="page-link" href="/Home/Index?perPage=13&page=@(Model.MyPage-1)" tabindex="-1">Previous</a>
+                </li>
+            }
+            @for (var i = 1; i < 3 && i <= (Model.Articles.Count / Model.PerPage)+1; i++)
+            {
+                @if (i == 1)
+                {
+                    <li class="page-item active">
+                        <a class="page-link" href="#">@Model.MyPage <span class="sr-only">(current)</span></a>
+                    </li>
+                }
+                else
+                {
+                    <li class="page-item">
+                        <a class="page-link" href="/Home/Index?perPage=13&page=@(Model.MyPage-2+i)">@(Model.MyPage-2+i)</a>
+                    </li>
+                }
+            }
+            @if (Model.MyPage >= Model.Articles.Count / Model.PerPage)
+            {
+                <li class="page-item disabled">
+                    <a class="page-link">Next</a>
+                </li>
+            }
+            else
+            {
+                <li class="page-item">
+                    <a class="page-link" href="/Home/Index?perPage=13&page=@(Model.MyPage+1)">Next</a>
+                </li>
+            }
+        </ul>
+    </nav>
 </div>

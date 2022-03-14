@@ -1,4 +1,6 @@
-﻿using WebMaze.EfStuff.Repositories;
+﻿using System.Collections.Generic;
+using System.Linq;
+using WebMaze.EfStuff.Repositories;
 using YourBlog.EfStuff.DbModel;
 
 namespace YourBlog.EfStuff.Repositories
@@ -8,5 +10,6 @@ namespace YourBlog.EfStuff.Repositories
         public ArticleRepository(WebContext webContext) : base(webContext)
         {
         }
+
     }
 }
