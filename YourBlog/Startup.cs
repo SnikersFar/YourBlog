@@ -43,6 +43,7 @@ namespace YourBlog
 
             provider.CreateMap<Article, ArticleViewModel>()
                 .ForMember(aView => aView.CategoryId, db => db.MapFrom(art => art.IsCategory.Id))
+                .ForMember(aView => aView.CategoryName, db => db.MapFrom(art => art.IsCategory.Name))
                 .ForMember(aView => aView.CreatorId, db => db.MapFrom(art => art.Creator.Id));
 
             provider.CreateMap<ArticleViewModel, Article>();

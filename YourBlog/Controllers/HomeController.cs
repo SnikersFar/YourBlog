@@ -21,5 +21,15 @@ namespace YourBlog.Controllers
             var articles = _mapper.Map<List<ArticleViewModel>>(_articleRepository.GetAll());
             return View(articles);
         }
+
+        public IActionResult InfoArticle(long IdArticle)
+        {
+            var myArticle = _articleRepository.Get(IdArticle);
+            if(myArticle == null)
+            {
+                return RedirectToAction("Index");
+            }
+            return View(_mapper.Map<ArticleViewModel>(myArticle));
+        }
     }
 }

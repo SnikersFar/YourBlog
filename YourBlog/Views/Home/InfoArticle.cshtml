@@ -1,0 +1,23 @@
+﻿@using YourBlog.Models
+@model ArticleViewModel
+@section Sprites{
+<link href="~/css/MyArticle.css">
+}
+
+<div class="card" style="width: 100%;">
+    <img class="card-img-top" src="@Model.Image">
+    <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+                <h5 class="card-title">@Model.Title</h5>
+            </li>
+            <li class="list-group-item">Category: @Model.CategoryName</li>
+            <li class="list-group-item">
+                <a class="info-text" style=" margin-top: 3%; display: flex; margin-bottom: 2%; font-size: 20px;">@Model.Text</a>
+            </li>
+        </ul>
+    </div>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item">Tags: @Model.Tags</li>
+    </ul>
+</div>

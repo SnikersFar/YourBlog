@@ -8,6 +8,7 @@ namespace YourBlog.Models
         [Required(ErrorMessage = "Category not correct! (empty)")]
         public long CategoryId { get; set; }
         public long CreatorId { get; set; }
+        public string CategoryName { get; set; }
         [Required(ErrorMessage = "Title not correct! (empty)")]
         public string Title { get; set; }
         public string Description { get; set; }
