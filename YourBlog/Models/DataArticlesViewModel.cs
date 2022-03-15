@@ -13,5 +13,6 @@ namespace YourBlog.Models
         public DateTime ToDateFind { get; set; }
         public long PerPage { get; set; }
         public long MyPage { get; set; }
+        public int CountPages { get; set; }
     }
 }

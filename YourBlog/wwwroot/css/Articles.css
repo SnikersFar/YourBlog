@@ -27,6 +27,7 @@ img:after {
 
 .rows {
     display: flex;
+    justify-content: space-around;
 }
 
 .filter {
@@ -35,7 +36,10 @@ img:after {
 }
 
 .link-pages {
+    z-index: 1;
+    table-layout: fixed;
     position: absolute;
     left: 50%;
     bottom: 0;
+    margin-bottom: 0%;
 }

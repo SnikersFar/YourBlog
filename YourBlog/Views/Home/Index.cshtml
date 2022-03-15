@@ -59,25 +59,18 @@
             else
             {
                 <li class="page-item">
-                    <a class="page-link" href="/Home/Index?perPage=13&page=@(Model.MyPage-1)" tabindex="-1">Previous</a>
+                    <a class="page-link" href="/Home/Index?&page=@(Model.MyPage-1)" tabindex="-1">Previous</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="/Home/Index?page=@(Model.MyPage-1)">@(Model.MyPage-1)</a>
                 </li>
             }
-            @for (var i = 1; i < 3 && i <= (Model.Articles.Count / Model.PerPage)+1; i++)
-            {
-                @if (i == 1)
-                {
-                    <li class="page-item active">
-                        <a class="page-link" href="#">@Model.MyPage <span class="sr-only">(current)</span></a>
-                    </li>
-                }
-                else
-                {
-                    <li class="page-item">
-                        <a class="page-link" href="/Home/Index?perPage=13&page=@(Model.MyPage-2+i)">@(Model.MyPage-2+i)</a>
-                    </li>
-                }
-            }
-            @if (Model.MyPage >= Model.Articles.Count / Model.PerPage)
+
+            <li class="page-item active">
+                <a class="page-link" href="#">@Model.MyPage <span class="sr-only">(current)</span></a>
+            </li>
+
+            @if (Model.MyPage >= Model.CountPages)
             {
                 <li class="page-item disabled">
                     <a class="page-link">Next</a>
@@ -86,7 +79,10 @@
             else
             {
                 <li class="page-item">
-                    <a class="page-link" href="/Home/Index?perPage=13&page=@(Model.MyPage+1)">Next</a>
+                    <a class="page-link" href="/Home/Index?page=@(Model.MyPage+1)">@(Model.MyPage+1)</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" tabindex="+2" href="/Home/Index?page=@(Model.MyPage+1)">Next</a>
                 </li>
             }
         </ul>
