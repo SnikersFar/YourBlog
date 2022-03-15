@@ -35,12 +35,22 @@ namespace YourBlog.EfStuff.Repositories
         private List<Article> FiltByCategory(List<Article> articles, long categoryId) => articles.Where(a => a.IsCategory.Id == categoryId).ToList();
         private List<Article> FiltByTags(List<Article> articles, string FiltTags)
         {
-            var Tags = FiltTags.Split();
+            if (FiltTags == null)
+                return articles;
+            var Tags = FiltTags.Split(",");
             var TagArticles = articles.Where(a =>
           {
-              var aTags = a.Tags.Split();
+              if(a.Tags == null)
+                  return false;
+
+              var aTags = a.Tags.Split(',');
               var result = Tags.Intersect(aTags);
-              return result.Any();
+              if(result.Count() > 1)
+              {
+                  return true;
+              }
+              return false;
+
           }).ToList();
             return TagArticles;
         }

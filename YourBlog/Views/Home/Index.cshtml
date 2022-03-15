@@ -23,13 +23,13 @@
                 </div>
             }
         </div>
-        <form>
+        <form method="post" action="/Home/Index">
             <div class="row filter">
 
                 <h3>Filter</h3>
                 <div style="display: flex;">
                     <h4>By Category</h4>
-                    <input name="FiltByCategory" class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                    <input name="FiltByCategory" class="form-check-input" type="checkbox" value="true" id="flexCheckDefault">
                 </div>
 
                 <select name="CategoryIdFind" class="form-control" id="exampleFormControlSelect1">
@@ -40,7 +40,7 @@
                 </select>
                 <div style="display: flex;">
                     <h4>By Date </h4>
-                    <input name="FiltByDate" class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                    <input name="FiltByDate" class="form-check-input" type="checkbox" value="true" id="flexCheckDefault">
                 </div>
 
                 start date
@@ -49,9 +49,9 @@
                 <input name="ToDateFind" type="date" max="2022-12-31" value="@Model.ToDateFind" />
                 <div style="display: flex;">
                     <h4>By Tags</h4>
-                     <input name="FiltByTags" class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                     <input name="FiltByTags" class="form-check-input" type="checkbox" value="true" id="flexCheckDefault">
                 </div>
-                <input name="TagFind" type="text" pattern="#[a-zA-Z]{1,}" placeholder="#cool #nice #best" value="@Model.TagFind" />
+                <input name="TagFind" type="text" pattern="(#[a-zA-Z]{1,},){1,}" placeholder="#cool,#nice,#best," value="@Model.TagFind" />
                 <input type="submit" value="Search" />
 
             </div>
