@@ -11,5 +11,11 @@ namespace YourBlog.EfStuff.Repositories
         {
         }
 
+
+        public List<Article> GetByFilter()
+        {
+            return new List<Article>();
+        }
+
     }
 }

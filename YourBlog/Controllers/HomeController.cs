@@ -38,6 +38,13 @@ namespace YourBlog.Controllers
             return View(DataView);
 
         }
+        [HttpPost]
+        public IActionResult Index(DataArticlesViewModel dataView)
+        {
+
+
+            return View();
+        }
 
         public IActionResult InfoArticle(long IdArticle)
         {

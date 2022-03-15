@@ -27,19 +27,30 @@
             <div class="row filter">
 
                 <h3>Filter</h3>
-                <h4>By Category</h4>
+                <div style="display: flex;">
+                    <h4>By Category</h4>
+                    <input name="FiltByCategory" class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                </div>
+
                 <select name="CategoryIdFind" class="form-control" id="exampleFormControlSelect1">
                     @foreach (var category in Model.Categories)
                     {
                         <option value="@category.Id">@category.Name</option>
                     }
                 </select>
-                <h4>By Date</h4>
+                <div style="display: flex;">
+                    <h4>By Date </h4>
+                    <input name="FiltByDate" class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                </div>
+
                 start date
                 <input name="FromDateFind" type="date" max="2022-12-31" value="@Model.FromDateFind" />
                 end date
                 <input name="ToDateFind" type="date" max="2022-12-31" value="@Model.ToDateFind" />
-                <h4>By Tags</h4>
+                <div style="display: flex;">
+                    <h4>By Tags</h4>
+                     <input name="FiltByTags" class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                </div>
                 <input name="TagFind" type="text" pattern="#[a-zA-Z]{1,}" placeholder="#cool #nice #best" value="@Model.TagFind" />
                 <input type="submit" value="Search" />
 

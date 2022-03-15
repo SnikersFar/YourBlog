@@ -14,5 +14,9 @@ namespace YourBlog.Models
         public long PerPage { get; set; }
         public long MyPage { get; set; }
         public int CountPages { get; set; }
+
+        public bool FiltByDate { get; set; }
+        public bool FiltByTags { get; set; }
+        public bool FiltByCategory { get; set; }
     }
 }
