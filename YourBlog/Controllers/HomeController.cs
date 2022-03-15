@@ -41,9 +41,24 @@ namespace YourBlog.Controllers
         [HttpPost]
         public IActionResult Index(DataArticlesViewModel dataView)
         {
+            var ViewArticles = _mapper.Map<List<ArticleViewModel>>(_articleRepository.GetByFilter(dataView));
+            var categories = _mapper.Map<List<CategoryViewModel>>(_categoryRepository.GetAll());
+
+            var CountOfArticles = _articleRepository.Count();
+            var countOfPages = Math.Ceiling((CountOfArticles * 1.0) / (13 * 1.0));
 
 
-            return View();
+            var DataView = new DataArticlesViewModel()
+            {
+                Articles = ViewArticles,
+                Categories = categories,
+                MyPage = 1,
+                PerPage = 13,
+                CountPages = Convert.ToInt32(countOfPages),
+
+            };
+
+            return View(DataView);
         }
 
         public IActionResult InfoArticle(long IdArticle)
