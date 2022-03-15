@@ -43,7 +43,7 @@ namespace YourBlog.Controllers
             var user = _userRepository.GetByNameAndPassword(login, password);
             if (user == null)
             {
-                return View(new LoginViewModel() { Login = login, Password = password, ResultLogin = false });
+                return View(new LoginViewModel() { ResultLogin = true });
             }
 
             var claims = new List<Claim>();
@@ -61,6 +61,11 @@ namespace YourBlog.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(string login, string password)
         {
+            var userS = _userRepository.GetByNameAndPassword(login, password);
+            if (userS != null)
+            {
+                return RedirectToAction("Login", "Admin");
+            }
             var user = new User() { Name = login, Password = password, IsActive = true };
             _userRepository.Save(user);
             var claims = new List<Claim>();
