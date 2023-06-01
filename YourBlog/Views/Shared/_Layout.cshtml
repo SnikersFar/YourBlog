@@ -1,4 +1,5 @@
-﻿
+﻿@using YourBlog.Services;
+@inject UserService userService
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -23,6 +24,15 @@
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
                             <a class="nav-link text-dark" href="/Home/Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            @{
+                                var user = userService.GetCurrentUser();
+                                @if (user != null && user.Name == "admin")
+                                {
+                                    <a class="nav-link text-dark" href="/Admin/Reports">Reports</a>
+                                }
+                            }
                         </li>
                         <li class="nav-item">
                             <div class="btn-group">

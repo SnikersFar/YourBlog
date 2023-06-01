@@ -1,0 +1,47 @@
+﻿@using YourBlog.Models
+@model IList<ReportViewModel>
+@section Sprites{
+    <script src="~/js/category.js"></script>
+}
+
+<h2>Reports</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Message</th>
+            <th scope="col">Report Author</th>
+            <th scope="col">Article</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var report in Model)
+        {
+            <tr>
+                <td id="name-@report.Id">@report.Message</td>
+                <td>@report.ReportAuthor.Name</td>
+                <td><a href="/Home/InfoArticle?IdArticle=@report.Post.Id" class="card-title">@report.Post.Title</a></td>
+                <td>
+                    <a class="edit-button btn btn-info" id="@report.Id"
+                       href="/Admin/BanByReport?UserId=@report.Post.CreatorId&ArticleId=@report.Post.Id&TypeBan=@((int)TypeBan.Article)">
+                        Ban Article
+                    </a>
+                </td>
+                <td>
+                    <a class="edit-button btn btn-warning" id="@report.Id"
+                       href="/Admin/BanByReport?UserId=@report.Post.CreatorId&ArticleId=@report.Post.Id&TypeBan=@((int)(TypeBan.User | TypeBan.Article))">
+                        Ban User & article
+                    </a>
+                </td>
+                <td>
+                    <a class="edit-button btn btn-danger" id="@report.Id"
+                       href="/Admin/BanByReport?UserId=@report.Post.CreatorId&ArticleId=@report.Post.Id&TypeBan=@((int)(TypeBan.User | TypeBan.AllArticles))">
+                        Ban User & articles
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

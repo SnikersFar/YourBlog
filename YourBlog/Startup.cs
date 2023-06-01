@@ -34,10 +34,12 @@ namespace YourBlog
             var connectString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=MyBlog;Integrated Security=True;";
             services.AddDbContext<WebContext>(x => x.UseSqlServer(connectString));
 
-            services.AddScoped<UserRepository>();
+            services.AddScoped<EfStuff.Repositories.UserRepository>();
             services.AddScoped<CategoryRepository>();
             services.AddScoped<ArticleRepository>();
-            services.AddScoped<UserService>();
+            services.AddScoped<ReportRepository>();
+            services.AddScoped<ReportService>();
+            services.AddScoped<Services.UserService>();
             services.AddScoped<ArticleService>();
 
             var provider = new MapperConfigurationExpression();
@@ -48,6 +50,9 @@ namespace YourBlog
                 .ForMember(aView => aView.CreatorId, db => db.MapFrom(art => art.Creator.Id));
 
             provider.CreateMap<ArticleViewModel, Article>();
+            
+            provider.CreateMap<Report, ReportViewModel>();
+            provider.CreateMap<User, UserViewModel>();
 
             provider.CreateMap<Category, CategoryViewModel>()
                 .ForMember(cView => cView.CountArticles, db => db.MapFrom(cat => cat.Articles.Where(a => a.IsActive).ToList().Count));

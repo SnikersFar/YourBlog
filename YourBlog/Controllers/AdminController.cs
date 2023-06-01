@@ -16,19 +16,27 @@ namespace YourBlog.Controllers
 {
     public class AdminController : Controller
     {
-        private UserRepository _userRepository;
-        private UserService _userService;
+        private EfStuff.Repositories.UserRepository _userRepository;
+        private Services.UserService _userService;
         private ArticleRepository _articleRepository;
         private CategoryRepository _categoryRepository;
+        private ReportService _reportService;
         private IMapper _mapper;
 
-        public AdminController(UserRepository userRepository, UserService userService, IMapper mapper, CategoryRepository categoryRepository, ArticleRepository articleRepository)
+        public AdminController(
+            EfStuff.Repositories.UserRepository userRepository,
+            Services.UserService userService,
+            IMapper mapper,
+            CategoryRepository categoryRepository,
+            ArticleRepository articleRepository,
+            ReportService reportService)
         {
             _userRepository = userRepository;
             _userService = userService;
             _mapper = mapper;
             _categoryRepository = categoryRepository;
             _articleRepository = articleRepository;
+            _reportService = reportService;
         }
 
         [HttpGet]
@@ -41,7 +49,7 @@ namespace YourBlog.Controllers
         public async Task<IActionResult> Login(string login, string password)
         {
             var user = _userRepository.GetByNameAndPassword(login, password);
-            if (user == null)
+            if (user == null || !user.IsActive)
             {
                 return View(new LoginViewModel() { ResultLogin = true });
             }
@@ -49,6 +57,7 @@ namespace YourBlog.Controllers
             var claims = new List<Claim>();
             claims.Add(new Claim("Id", user.Id.ToString()));
             claims.Add(new Claim("Name", user.Name));
+            claims.Add(new Claim(ClaimTypes.Role,user.Name));
             claims.Add(new Claim(ClaimTypes.AuthenticationMethod, Startup.AuthCoockieName));
 
             var claimsIdentity = new ClaimsIdentity(claims, Startup.AuthCoockieName);
@@ -71,6 +80,7 @@ namespace YourBlog.Controllers
             var claims = new List<Claim>();
             claims.Add(new Claim("Id", user.Id.ToString()));
             claims.Add(new Claim("Name", user.Name));
+            claims.Add(new Claim(ClaimTypes.Role, user.Name));
             claims.Add(new Claim(ClaimTypes.AuthenticationMethod, Startup.AuthCoockieName));
 
             var claimsIdentity = new ClaimsIdentity(claims, Startup.AuthCoockieName);
@@ -201,6 +211,31 @@ namespace YourBlog.Controllers
                 _categoryRepository.Save(category);
             }
             return RedirectToAction("AddCategory", "Admin");
+        }
+
+        [Authorize(Roles = "admin")]
+        [HttpGet]
+        public IActionResult Reports()
+        {
+            return View(_reportService.GetAllReports());
+        }
+        [HttpGet]
+        [Authorize(Roles = "admin")]
+        public IActionResult BanByReport(BanViewModel banView)
+        {
+            _reportService.Ban(banView);
+            return RedirectToAction("Reports");
+        }
+        [Authorize]
+        [HttpPost]
+        public IActionResult AddReport(ReportRequestViewModel reportRequest)
+        {
+            var user = _userService.GetCurrentUser();
+            if (user is null)
+                return RedirectToAction("InfoArticle", "Home", new { IdArticle = reportRequest.ArticleId});
+            reportRequest.ReportAuthorId = user.Id;
+            _reportService.AddReport(reportRequest);
+            return RedirectToAction("InfoArticle", "Home", new { IdArticle = reportRequest.ArticleId });
         }
     }
 

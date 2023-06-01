@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace YourBlog.EfStuff.DbModel
 {
@@ -12,6 +13,7 @@ namespace YourBlog.EfStuff.DbModel
         public virtual User Creator { get; set; }
         public string Tags { get; set; }
         public DateTime CreatedDate { get; set; }
+        public virtual List<Report> Reports { get; set; }   
 
     }
 }

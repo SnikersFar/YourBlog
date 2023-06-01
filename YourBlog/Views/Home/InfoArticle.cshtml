@@ -1,7 +1,9 @@
 ﻿@using YourBlog.Models
+@using YourBlog.Services;
 @model ArticleViewModel
+@inject UserService userService
 @section Sprites{
-<link rel="stylesheet" href="~/css/MyArticle.css">
+    <link rel="stylesheet" href="~/css/MyArticle.css">
 }
 
 <div class="card" style="width: 100%;">
@@ -19,6 +21,24 @@
     </div>
     <ul class="list-group list-group-flush">
         <li class="list-group-item">Tags: @Model.Tags</li>
+        @{
+
+            var user = userService.GetCurrentUser();
+            @if (user != null && user.IsActive)
+            {
+                <form action="/Admin/AddReport" method="post">
+                <li class="list-group-item">
+                    <div class="input-group mb-3">
+                        <input name="ArticleId" type="hidden" value="@Model.Id">
+                        <input name="ReportMessage" type="text" class="form-control" placeholder="Report Message" aria-label="Report Message" aria-describedby="basic-addon2">
+                        <div class="input-group-append">
+                            <button class="btn btn-danger" type="submit">Report</button>
+                        </div>
+                    </div>
+                </li>
+                </form>
+            }
+        }
     </ul>
 </div>
 
